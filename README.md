@@ -1,7 +1,8 @@
 # bender Resource
 
 A  Concourse resource that can trigger any job (deployments, releases, ...) using slack.
-Check [examples](#Examples)
+
+Check [examples](examples.md) page for usage.
 
 ## Source Configuration
 
@@ -11,7 +12,7 @@ Check [examples](#Examples)
 
 * `bot_name`: *Optional*, *default `bender`*. The bot name will be used to identify and filter messages. All messages must be addressed to the bot, eg.: `@bot_name some message`.
 
-* `grammar`: *Optional.* If not defined bender will respond to all mentions `@bot_name` and If grammar is defined bender will **only** respond to messages matching the regex expression. Use [python regular expression](https://docs.python.org/2/library/re.html) syntax. See [examples](#Examples) for inspiration.
+* `grammar`: *Optional.* If not defined bender will respond to all mentions `@bot_name` and If grammar is defined bender will **only** respond to messages matching the regex expression. Use [python regular expression](https://docs.python.org/2/library/re.html) syntax. See [examples](examples.md) page. for inspiration.
 
 * `template`: *Optional*. A string that will be evaluated and written to `template_filename` can be used as an input file for further jobs in the pipeline.
 
@@ -31,7 +32,7 @@ Check accepts no params.
 
 A file **bender.json** will be created with the message payload.
 
-if `template` is defined it will be evaluated and written to `template_filename`. For more info on template syntax read [Template section](#Template). For example on usage, check the [examples](#Examples) section.
+if `template` is defined it will be evaluated and written to `template_filename`. For more info on template syntax read [template section](#template). For example on usage, check the [examples](examples.md) page.
 
 #### `in Parameters`
 
@@ -45,7 +46,7 @@ Replies to the original message in a thread format.
 
 * `path`: *Required.* The path of the resource name.
 
-* `reply`: *Required.* The message to be used as reply. Supports [template format](#Template).
+* `reply`: *Required.* The message to be used as reply. Supports [template format](#template).
 
 ### Template
 
@@ -77,10 +78,6 @@ The template uses python [Jinja2](http://jinja.pocoo.org/docs/2.9/) engine.
 ```
 
 * If you have multiple triggers on the same channel it is better to use a different bot token for each. check TODO
-
-## Examples
-
-Check [examples.md](examples.md)
 
 ## TODO
 
