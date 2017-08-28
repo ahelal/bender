@@ -25,6 +25,7 @@ def template_str(text, variables):
         fail_unless(False, "Type error. Template string: '{}'\n.{}".format(text, type_error))
 
 def template_with_regex(text, regex):
+    ''' Add regex groupdict or groups to our environment'''
     extra_env = {}
     if regex and regex.groupdict():
         extra_env = {"regex": regex.groupdict()}
@@ -74,11 +75,11 @@ class Base(object):
 
     @staticmethod
     def _remove_botname(msg, bot_id):
-        regex = re.compile(r"^<@{}>(.*)".format(bot_id))
+        regex = re.compile(r"^(\s+)?<@{}>(.*)".format(bot_id))
         regex = regex.match(msg)
         if not regex:
             return None
-        return regex.groups()[0].strip()
+        return regex.groups()[1].strip()
 
     def _msg_grammar(self, msg):
         direct_msg = self._remove_botname(msg, self.bot_id)
@@ -89,7 +90,7 @@ class Base(object):
         try:
             regex = re.compile(r"{}".format(self.grammar))
         except re.error as regex_error:
-            fail_unless(False, "The grammar expression '{}' has an error. : {}".format(self.grammar, regex_error))
+            fail_unless(False, "The grammar expression '{}' has an error : {}".format(self.grammar, regex_error))
         regex = regex.match(direct_msg)
 
         return regex

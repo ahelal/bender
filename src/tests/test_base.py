@@ -2,6 +2,7 @@ import json
 import mock
 import os
 import sys
+import re
 from unittest import TestCase
 
 import base
@@ -34,9 +35,17 @@ class BaseTest(TestCase):
         # Misc
         self.assertEqual(self.resource.grammar, self.grammar)
 
+    def test_remove_botname(self):
+        bot_id = "U01B12FDS"
+        self.assertEqual("", self.resource._remove_botname("<@U01B12FDS>  ", bot_id))
+        self.assertEqual("", self.resource._remove_botname("  <@U01B12FDS>", bot_id))
+        self.assertEqual("", self.resource._remove_botname("  <@U01B12FDS> ", bot_id))
+        self.assertEqual("Hi", self.resource._remove_botname("<@U01B12FDS> Hi ", bot_id))
+        self.assertIsNone(self.resource._remove_botname("@U01B12FDS Hi", bot_id))
+        self.assertIsNone(self.resource._remove_botname("< @U01B12FDS > Hi", bot_id))
 
     def test_msg_grammar(self):
-        # TODO: Check incorrect grammar, check return value of expression
+        # TODO:, check return value of expression
         self.assertIsNone(self.resource._msg_grammar("theBender superApp deploy live 1.2"))
         self.assertIsNotNone(self.resource._msg_grammar("<@U01B12FDS> superApp  deploy  live  1.2"))
         self.assertIsNone(self.resource._msg_grammar("<@U01B12FDS> superApp2 deploy dev 1.1 extra"))
@@ -72,8 +81,25 @@ class BaseTest(TestCase):
 
 class FunctionsTest(TestCase):
 
+    @mock.patch('base.template_str')
+    def test_template_with_regex(self, mock_template_str):
+        # Simply return t, e
+        mock_template_str.side_effect = lambda t, e: (t, e)
+        # Test subgroups
+        regex = re.compile(r"^(Bender)\s(Rodriguez)")
+        regex = regex.match("Bender Rodriguez")
+        text, env = base.template_with_regex("STR", regex)
+        self.assertEqual("STR", text)
+        self.assertEqual({'regex': ('Bender', 'Rodriguez')}, env)
+        # Test named subgroups
+        regex = re.compile(r"^(?P<FIRST>Bender)\s(?P<LAST>Rodriguez)")
+        regex = regex.match("Bender Rodriguez")
+        text, env = base.template_with_regex("STR2", regex)
+        self.assertEqual("STR2", text)
+        self.assertEqual({'regex': {'FIRST': 'Bender', 'LAST': 'Rodriguez'}}, env)
+
     @mock.patch('base.fail_unless')
-    def template_test(self, mock_fail_unless):
+    def test_template_str_simple(self, mock_fail_unless):
         # Simple template no variables "pass through"
         string = "Hi Man"
         templated_string = base.template_str(string, {})
@@ -88,7 +114,7 @@ class FunctionsTest(TestCase):
         mock_fail_unless.assert_not_called()
 
     @mock.patch('base.fail_unless')
-    def template_test_environment_variables(self, mock_fail_unless):
+    def test_template_str_environment_variables(self, mock_fail_unless):
         # Check merge with os.ENV
         os.environ["BUILD_NUM"] = "10"
         string = "http//127.0.0.1/build?name={{build_name}}&num={{ ENV['BUILD_NUM'] }}"
@@ -98,7 +124,7 @@ class FunctionsTest(TestCase):
         mock_fail_unless.assert_not_called()
 
     @mock.patch('base.fail_unless')
-    def template_test_error(self, mock_fail_unless):
+    def test_template_str_error(self, mock_fail_unless):
         # Template error
         string = "Hi {{ Title }}. {{ Name"
         no_return = base.template_str(string, {})
