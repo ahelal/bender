@@ -3,8 +3,20 @@
 [![Build Status](https://travis-ci.org/ahelal/bender.svg?branch=master)](https://travis-ci.org/ahelal/bender) [![Docker Repository on Quay](https://quay.io/repository/ahelal/bender/status "Docker Repository on Quay")](https://quay.io/repository/ahelal/bender)
 
 A  Concourse resource that can trigger any job (deployments, releases, ...) using slack.
-
 Check [examples](examples.md) page for usage.
+
+## Deploying to Concourse
+
+You can use the docker image by defining the  [resource type](https://concourse.ci/configuring-resource-types.html) in your pipeline YAML.
+
+```yaml
+resource_types    :
+  - name: bender-resource
+    type: docker-image
+    source:
+      repository: quay.io/ahelal/bender
+      tag: latest
+```
 
 ## Source Configuration
 

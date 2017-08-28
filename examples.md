@@ -1,17 +1,5 @@
 # Example
 
-to start using bender you must define a [resource type](https://concourse.ci/configuring-resource-types.html)
-
-```yaml
-# Defined custom resource
-resource_types    :
-  - name: bender-resource
-    type: docker-image
-    source:
-      repository: quay.io/ahelal/bender
-      tag: latest
-```
-
 ## `Example 1`: A simple trigger when `@bender` is mentioned in `planet_express` channel
 
 ``` yaml
