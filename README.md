@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/ahelal/bender.svg?branch=master)](https://travis-ci.org/ahelal/bender) [![Docker Repository on Quay](https://quay.io/repository/ahelal/bender/status "Docker Repository on Quay")](https://quay.io/repository/ahelal/bender)
 
 A  Concourse resource that can trigger any job (deployments, releases, ...) using slack.
+
 Check [examples](examples.md) page for usage.
 
 ## Deploying to Concourse
