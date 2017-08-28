@@ -6,6 +6,6 @@ python:
 # command to install dependencies
 install:
   - "pip install -r requirements.txt"
-  - "pip install nose"
+  - "pip install nose coverage"
 # command to run tests
 script: make tests-detail
