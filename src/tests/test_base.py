@@ -15,12 +15,12 @@ class BaseTest(TestCase):
     def setUp(self, mock_call_api, mock_get_channel_group_info, mock_filter):
 
         self.script_dir = os.path.dirname(__file__)
-        with open('{}/responses/users.json'.format(self.script_dir)) as f:
-            mock_call_api.return_value = json.load(f)
+        with open('{}/responses/users.json'.format(self.script_dir)) as user_json_file:
+            mock_call_api.return_value = json.load(user_json_file)
         mock_get_channel_group_info.return_value = "C024BE91L", "channels"
         mock_filter.return_value = "U01B12FDS"
 
-        self.grammar = "^(superApp)\\s+(deploy)\\s+(live|staging)\\s+(\S+)($|\s+)"
+        self.grammar = "^(superApp)\s+(deploy)\s+(live|staging)\s+(\S+)($|\s+)"
         self.resource = base.Base(token="token", channel="testChannel", bot="theBender",
                                   grammar=self.grammar, path="bender_path", reply="testing 1.2.3")
 

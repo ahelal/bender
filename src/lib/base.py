@@ -1,6 +1,6 @@
+''' Base class and some helper functions'''
 from __future__ import print_function
 
-import json
 import os
 import re
 import sys
@@ -60,8 +60,7 @@ class Base(object):
         # find my id `the bot`
         self.bot_id = self._filter(
             self.users['members'], "id", "name", self.bot)
-        fail_unless(
-            self.bot_id, "Unable to find bot name '{}'".format(self.bot))
+        fail_unless(self.bot_id, "Unable to find bot name '{}'".format(self.bot))
         # Get channel/group ID
         self.channel_id, self.channel_type = self._get_channel_group_info()
         fail_unless(self.channel_id, "Unable to find channel '{}'".format(self.channel))

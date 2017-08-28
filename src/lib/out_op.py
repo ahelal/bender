@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+''' The OUT operation for bender resource'''
 from __future__ import print_function
 
 import json
@@ -10,7 +11,7 @@ from base import Base, fail_unless, template_with_regex
 
 
 class Out(Base):
-    ''' Check resource'''
+    ''' Out resource'''
 
     def __init__(self, **kwargs):
         Base.__init__(self, **kwargs)

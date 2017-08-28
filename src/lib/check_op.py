@@ -1,12 +1,11 @@
 #!/usr/bin/env python
+''' The Check operation for bender resource'''
 from __future__ import print_function
 
 import json
-import os
-import sys
 
 from payload import PayLoad
-from base import Base, template_str, write_to_file
+from base import Base
 
 
 class Check(Base):

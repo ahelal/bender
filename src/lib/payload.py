@@ -1,3 +1,4 @@
+''' Parse payload options and command line argument'''
 from __future__ import print_function
 
 import json
@@ -7,6 +8,7 @@ from base import fail_unless
 
 
 class PayLoad(object):
+    ''' Payload class '''
 
     def __init__(self):
         self.payload = self._get_payload()

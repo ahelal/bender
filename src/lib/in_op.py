@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+''' The IN operation for bender resource'''
 from __future__ import print_function
 
 import json
@@ -10,13 +11,13 @@ from base import Base, fail_unless, template_with_regex, write_to_file
 
 
 class In(Base):
-    ''' In resource'''
+    ''' In resource class'''
 
     def __init__(self, **kwargs):
         Base.__init__(self, **kwargs)
         self.metadata = []
         self.template = kwargs.get("template")
-        self.template_filename = os.path.basename(kwargs.get("template_filename",""))
+        self.template_filename = os.path.basename(kwargs.get("template_filename", ""))
         self.templated_string = None
         self.original_msg = ""
         self.dir = sys.argv[1]
@@ -58,6 +59,7 @@ class In(Base):
         print(json.dumps(output, indent=4, sort_keys=True))
 
 def main():
+    ''' Main'''
     payload = PayLoad()
     fail_unless(payload.args["version"], "version is required")
 
