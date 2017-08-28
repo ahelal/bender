@@ -1,0 +1,14 @@
+{
+    "ok": true,
+    "channels": [
+        {
+            "id": "C024BE91L",
+            "name": "testChannel",
+            "created": 1360782804,
+            "creator": "U1G51PPC",
+            "is_archived": false,
+            "is_member": false,
+            "num_members": 6
+        }
+    ]
+}

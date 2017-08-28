@@ -1,0 +1,14 @@
+{
+    "source": {
+        "slack_token": "xoxb-213213-sadsadsa2312",
+        "channel": "test-bender-dev",
+        "bot_name": "bender",
+        "grammar": "^(superApp)\\s+(deploy)\\s+(live|staging)\\s+(\\S+)($|\\s+)"
+    },
+    "version": {
+        "id_ts": 1358546512.010007,
+        "uid": "U0xV31PHC",
+        "username": "ahelal",
+        "message": "<@U01B12FDS> superApp  deploy staging 1.2-rc.1"
+    }
+}

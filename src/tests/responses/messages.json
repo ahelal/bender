@@ -1,0 +1,49 @@
+{
+    "ok": true,
+    "latest": "1358547726.000003",
+    "messages": [
+        {
+            "type": "message",
+            "ts": "1358546510.000008",
+            "user": "U1G51PPC",
+            "text": "Hello whats Up"
+        },
+        {
+            "type": "something_else",
+            "ts": "1358546511.000207",
+            "wibblr": true
+        },
+        {
+            "type": "message",
+            "ts": "1358546512.010007",
+            "user": "U0xV31PHC",
+            "text": "<@U01B12FDS> superApp  deploy staging 1.2-rc.1",
+            "is_starred": true
+        },
+        {
+            "type": "something_else",
+            "ts": "1358546513.000007",
+            "wibblr": true
+        },
+        {
+            "type": "message",
+            "ts": "1358546514.000008",
+            "user": "U1G51PPC",
+            "text": "Hey man. I am deploying live"
+        },
+        {
+            "type": "message",
+            "ts": "1358546515.010007",
+            "user": "U1G51PPC",
+            "text": "<@U01B12FDS> superApp deploy live 1.1",
+            "is_starred": true
+        },
+        {
+            "type": "message",
+            "ts": "1358546516.000008",
+            "user": "U1G51PPC",
+            "text": "Cool :+1"
+        }
+    ],
+    "has_more": false
+}

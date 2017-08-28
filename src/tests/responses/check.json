@@ -1,0 +1,8 @@
+{
+    "source": {
+        "slack_token": "xoxb-sdasd-1231231231",
+        "channel": "test-bender-dev",
+        "bot_name": "bender",
+        "grammar": "^(superApp)\\s+(deploy)\\s+(live|staging)\\s+(\\S+)($|\\s+)"
+    }
+}

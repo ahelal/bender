@@ -1,0 +1,26 @@
+*.pyc
+*_test.json
+
+# pyenv
+.python-version
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+vars.yml
+
+.vscode/*
+
+example/test1.yml
