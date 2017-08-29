@@ -3,7 +3,6 @@
 from __future__ import print_function
 
 import json
-import sys
 import os
 
 from payload import PayLoad
@@ -45,7 +44,7 @@ class In(Base):
                          {"name": "Message", "value": text}]
 
     def in_output(self):
-        """Concourse resource `in` output """
+        """Concourse resource `in` main """
 
         output = {"version": self.version, "metadata": self.metadata, "original_msg": self.original_msg}
         # Write response as bender.json for further use

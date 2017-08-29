@@ -3,9 +3,8 @@ python:
   - "2.7"
 #  - "3.6"
 
-# command to install dependencies
 install:
   - "pip install -r requirements.txt"
-  - "pip install nose coverage"
-# command to run tests
+  - "pip install nose coverage pylint"
+
 script: make tests-detail

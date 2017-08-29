@@ -21,9 +21,19 @@ class OutTest(TestCase):
         mock_filter.return_value = "U01B12FDS"
 
         self.grammar = "^(superApp)\s+(deploy)\s+(live|staging)\s+(\S+)($|\s+)"
-        self.resource = out_op.Out(token="token", channel="testChannel", bot="theBender",
-                                   template="VERSION={{ regex[4] }}", template_file="template_file.txt",
-                                   grammar=self.grammar, path="bender_path", reply="testing 1.2.3")
+        self.resource = out_op.Out(token="token", channel="testChannel", bot="theBender", working_dir="/tmp",
+                                   grammar=self.grammar, path="bender_path", reply="testing 1.2.3",
+                                   reply_thread="reply_thread")
+
+    def test__init__(self):
+        # Channel info
+        self.assertEqual(self.resource.bender_json_path, "/tmp/bender_path/bender.json")
+        self.assertEqual(self.resource.path, "bender_path")
+        self.assertEqual(self.resource.reply, "testing 1.2.3")
+        self.assertEqual(self.resource.reply_thread, "reply_thread")
+        self.assertEqual(self.resource.working_dir, "/tmp")
+
+#self.bender_json_path = '{}/{}/bender.json'.format(self.working_dir, self.path)
 
     @mock.patch('out_op.json.dumps')
     @mock.patch('out_op.print', create=True)

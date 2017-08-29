@@ -57,13 +57,15 @@ In accepts no params.
 
 ### `out`: Reply to original message
 
-Replies to the original message in a thread format.
+Replies with a message to the selected `channel`.
 
 #### `out Parameters`
 
-* `path`: *Required.* The path of the resource name.
+* `reply`: *Required*. The message to be used as reply. Supports [template format](#template).
 
-* `reply`: *Required.* The message to be used as reply. Supports [template format](#template).
+* `reply_thread`: *optional*, *default `False`*. If enabled will post reply to original message as a thread.
+
+* `path`: *required*. The path of the resource name. This is used to get context from original message.
 
 ### Template
 
@@ -96,6 +98,8 @@ The template uses python [Jinja2](http://jinja.pocoo.org/docs/2.9/) engine.
 
 ## TODO
 
+* Support reading from a file for `template` and `reply`
+* Refactor and simplify logic of check_logic_unread
 * Increase code coverage
 
 ## Contribution

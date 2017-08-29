@@ -26,6 +26,7 @@ tests-detail:
 	$(info $(M) Running tests for $(VERSION))
 	@PYTHONPATH="src/lib" nosetests --detailed-errors -w "src/tests" -vv --nocapture  \
 									--with-coverage --cover-package=base,check_op,in_op,out_op,payload
+	@pylint src/lib/*.py
 
 push:
 	$(info $(M) Pushing $(NAME):$(VERSION) )

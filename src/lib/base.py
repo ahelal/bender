@@ -46,7 +46,7 @@ def fail_unless(condition, msg):
         exit(1)
 
 
-class Base(object):
+class Base(object): # pylint: disable=too-few-public-methods,too-many-instance-attributes
     """Slack Concourse resource implementation"""
 
     def __init__(self, **kwargs):

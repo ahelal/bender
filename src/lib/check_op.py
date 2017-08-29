@@ -27,7 +27,6 @@ class Check(Base):
 
     def check_logic_unread(self, max_api_count=100):
         """Concourse resource `check` logic using unread mark by slack"""
-        # TODO: (A) Simplify the check logic :(
         latest_ts = 0
         msgs_2_return = max_api_count
         unread_counter = 1
@@ -93,6 +92,7 @@ class Check(Base):
         print(json.dumps(self.checked_msg, indent=4, sort_keys=True))
 
 def main():
+    """Concourse resource `check` main """
     payload = PayLoad()
     slack_client = Check(**payload.args)
 

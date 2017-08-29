@@ -4,7 +4,6 @@ from __future__ import print_function
 
 import json
 import os
-import sys
 
 from payload import PayLoad
 from base import Base, fail_unless, template_with_regex
@@ -18,26 +17,35 @@ class Out(Base):
         self.metadata = []
         self.path = kwargs.get("path", False)
         self.reply = kwargs.get("reply", False)
+        self.reply_thread = kwargs.get("reply_thread", True)
+        self.bender_json_path = '{}/{}/bender.json'.format(self.working_dir, self.path)
 
-    def _reply(self, timestamp, text):
+    def _reply(self, thread_timestamp, text):
+        args = {}
+        if thread_timestamp:
+            args = {"thread_ts": thread_timestamp}
+
         self._call_api("chat.postMessage",
                        channel=self.channel_id,
-                       thread_ts=timestamp,
-                       text=text)
+                       text=text,
+                       **args)
 
     def out_logic(self):
         """Concourse resource `out` logic """
-        output_file = '{}/{}/bender.json'.format(self.working_dir, self.path)
-        fail_unless(os.path.isfile(output_file), "Failed to get version info from file {}".format(output_file))
 
-        with open(output_file) as bender_file:
+        fail_unless(os.path.isfile(self.bender_json_path), "Failed to get version info from file {}".format(self.bender_json_path))
+        with open(self.bender_json_path) as bender_file:
             output_data = json.load(bender_file)
         self.version = output_data["version"]
         self.metadata = output_data["metadata"]
         regex = self._msg_grammar(output_data["original_msg"])
         templated_reply = template_with_regex(self.reply, regex)
-        # template reply
-        self._reply(self.version["id_ts"], templated_reply)
+
+        if self.reply_thread:
+            reply_to_thread = self.version["id_ts"]
+        else:
+            reply_to_thread = False
+        self._reply(reply_to_thread, templated_reply)
 
     def out_output(self):
         """Concourse resource `out` output """
@@ -46,6 +54,7 @@ class Out(Base):
 
 
 def main():
+    ''' Main `out` entry point'''
     payload = PayLoad()
     fail_unless(payload.args.get("path", False), "path is required")
     fail_unless(payload.args.get("reply", False), "reply is required")

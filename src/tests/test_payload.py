@@ -67,13 +67,14 @@ class PayloadTest(TestCase):
         self.assertIsNone(py.args["grammar"])
         self.assertIsNone(py.args["path"])
         self.assertIsNone(py.args["reply"])
+        self.assertTrue(py.args["reply_thread"])
 
     @mock.patch('payload.PayLoad._get_dir_from_argv')
     @mock.patch('payload.fail_unless')
     @mock.patch('payload.PayLoad._get_payload')
     def test_parse_payload_values(self, mock_get_payload, mock_fail_unless, mock_get_dir_from_argv):
         mock_get_dir_from_argv.return_value = "/tmp"
-        mock_get_payload.side_effect = [{'params': {'path': 'path', 'reply': 'reply'},
+        mock_get_payload.side_effect = [{'params': {'path': 'path', 'reply': 'reply', "reply_thread": "reply_thread"},
                                          'source': {'bot_name': 'bot_name',
                                                     'channel': 'channel',
                                                     'grammar': 'grammar',
@@ -94,3 +95,4 @@ class PayloadTest(TestCase):
         self.assertEqual(py.args["grammar"], "grammar")
         self.assertEqual(py.args["path"], "path")
         self.assertEqual(py.args["reply"], "reply")
+        self.assertEqual(py.args["reply_thread"], "reply_thread")
