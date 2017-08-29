@@ -27,10 +27,10 @@ class CheckTest(TestCase):
         self.assertEqual(self.resource.checked_msg, [])
 
     @mock.patch('check_op.Check._call_api')
-    def test_check_logic_no_msg(self, mock_call_api):
+    def test_check_logic_unread_no_msg(self, mock_call_api):
         mock_call_api.return_value = {"ok": True, "latest": "1358547726.000003", "messages": [], "has_more": False,
                                       "unread_count_display": 0}
-        mark_ts = self.resource.check_logic()
+        mark_ts = self.resource.check_logic_unread()
         mock_call_api.assert_called()
         self.assertFalse(mark_ts)
 
@@ -51,11 +51,11 @@ class CheckTest(TestCase):
 
 
     # @mock.patch('base.Base._call_api')
-    # def test_check_logic_many(self, mock_call_api):
+    # def test_check_logic_unread_many(self, mock_call_api):
     #     with open('{}/responses/messages_many.json'.format(self.script_dir)) as json_file:
     #         mock_call_api.return_value = json.load(json_file)
 
-    #     mark_ts = self.resource.check_logic()
+    #     mark_ts = self.resource.check_logic_unread()
     #     mock_call_api.assert_called()
     #     self.assertFalse(mark_ts)
 

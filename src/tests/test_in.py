@@ -33,7 +33,7 @@ class InTest(TestCase):
     def test_in_output(self, mock_print, mock_json_dumps, mock_write_to_file):
         # Test with no templated_string
         self.resource.templated_string = False
-        self.resource.dir = "/tmp"
+        self.resource.working_dir = "/tmp"
         self.resource.original_msg = "OR"
         self.resource.version = {"ts": "123"}
         self.resource.metadata = [{"a": 1, "b": 2}]

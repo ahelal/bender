@@ -27,7 +27,7 @@ class Out(Base):
 
     def out_logic(self):
         """Concourse resource `out` logic """
-        output_file = '{}/{}/bender.json'.format(sys.argv[1], self.path)
+        output_file = '{}/{}/bender.json'.format(self.working_dir, self.path)
         fail_unless(os.path.isfile(output_file), "Failed to get version info from file {}".format(output_file))
 
         with open(output_file) as bender_file:

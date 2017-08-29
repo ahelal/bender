@@ -21,8 +21,8 @@ class BaseTest(TestCase):
         mock_filter.return_value = "U01B12FDS"
 
         self.grammar = "^(superApp)\s+(deploy)\s+(live|staging)\s+(\S+)($|\s+)"
-        self.resource = base.Base(token="token", channel="testChannel", bot="theBender",
-                                  grammar=self.grammar, path="bender_path", reply="testing 1.2.3")
+        self.resource = base.Base(token="token", channel="testChannel", bot="theBender", working_dir="/test",
+                                  grammar=self.grammar, path="bender_path", reply="testing 1.2.3", slack_unread=True)
 
     def test__init__(self):
         # Channel info
@@ -34,6 +34,8 @@ class BaseTest(TestCase):
         self.assertEqual(self.resource.bot_id, "U01B12FDS")
         # Misc
         self.assertEqual(self.resource.grammar, self.grammar)
+        self.assertTrue(self.resource.slack_unread)
+        self.assertEqual(self.resource.working_dir, "/test")
 
     def test_remove_botname(self):
         bot_id = "U01B12FDS"

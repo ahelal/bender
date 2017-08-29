@@ -20,7 +20,6 @@ class In(Base):
         self.template_filename = os.path.basename(kwargs.get("template_filename", ""))
         self.templated_string = None
         self.original_msg = ""
-        self.dir = sys.argv[1]
 
     def _get_single_msg(self, timestamp):
         return self._call_api(self.channel_type + ".history",
@@ -50,10 +49,10 @@ class In(Base):
 
         output = {"version": self.version, "metadata": self.metadata, "original_msg": self.original_msg}
         # Write response as bender.json for further use
-        write_to_file(json.dumps(output), '{}/bender.json'.format(self.dir))
+        write_to_file(json.dumps(output), '{}/bender.json'.format(self.working_dir))
         # Write template if specified
         if self.templated_string:
-            write_to_file(self.templated_string, '{}/{}'.format(self.dir, self.template_filename))
+            write_to_file(self.templated_string, '{}/{}'.format(self.working_dir, self.template_filename))
 
         # Print concourse output string
         print(json.dumps(output, indent=4, sort_keys=True))

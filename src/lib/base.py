@@ -55,11 +55,12 @@ class Base(object):
         self.channel = kwargs.get("channel", "")
         self.grammar = kwargs.get("grammar", False)
         self.version = kwargs.get("version", False)
+        self.working_dir = kwargs.get("working_dir", False)
+        self.slack_unread = kwargs.get("slack_unread", False)
         # Get all user list
         self.users = self._call_api("users.list", presence=0)
         # find my id `the bot`
-        self.bot_id = self._filter(
-            self.users['members'], "id", "name", self.bot)
+        self.bot_id = self._filter(self.users['members'], "id", "name", self.bot)
         fail_unless(self.bot_id, "Unable to find bot name '{}'".format(self.bot))
         # Get channel/group ID
         self.channel_id, self.channel_type = self._get_channel_group_info()

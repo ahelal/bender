@@ -25,9 +25,9 @@ class Check(Base):
             if message.get("type", "") == "message" and self._msg_grammar(message.get("text", False)):
                 self.checked_msg.append({"id_ts": message["ts"]})
 
-    def check_logic(self, max_api_count=100):
-        """Concourse resource `check` logic """
-        # TODO: (A) Simplify that logic and (B) Add concourse logic of checking from last version (will be damn slow)
+    def check_logic_unread(self, max_api_count=100):
+        """Concourse resource `check` logic using unread mark by slack"""
+        # TODO: (A) Simplify the check logic :(
         latest_ts = 0
         msgs_2_return = max_api_count
         unread_counter = 1
@@ -72,6 +72,22 @@ class Check(Base):
             self._mark_read(mark_ts)
         return mark_ts
 
+    def check_logic_concourse(self, max_api_count=1000):
+        """Concourse resource `check` logic using version passed by concourse"""
+
+        oldest = self.version.get("id_ts", 0)
+        has_more = True
+        while has_more:
+            messages = self._call_api(self.channel_type + ".history",
+                                      channel=self.channel_id,
+                                      count=max_api_count,
+                                      oldest=oldest)
+
+            has_more = messages.get("has_more")
+            if messages["messages"]:
+                oldest = messages["messages"][-1]["ts"]
+                self._parse_msgs(messages["messages"], len(messages["messages"]))
+
     def check_output(self):
         """Concourse resource `check` output """
         print(json.dumps(self.checked_msg, indent=4, sort_keys=True))
@@ -80,7 +96,11 @@ def main():
     payload = PayLoad()
     slack_client = Check(**payload.args)
 
-    slack_client.check_logic()
+    if slack_client.slack_unread or not slack_client.version:
+        slack_client.check_logic_unread()
+    else:
+        slack_client.check_logic_concourse()
+
     slack_client.check_output()
 
 if __name__ == '__main__':

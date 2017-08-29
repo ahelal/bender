@@ -27,11 +27,13 @@ resource_types    :
 
 * `bot_name`: *Optional*, *default `bender`*. The bot name will be used to identify and filter messages. All messages must be addressed to the bot, eg.: `@bot_name some message`.
 
-* `grammar`: *Optional.* If not defined bender will respond to all mentions `@bot_name` and If grammar is defined bender will **only** respond to messages matching the regex expression. Use [python regular expression](https://docs.python.org/2/library/re.html) syntax. See [examples](examples.md) page. for inspiration.
+* `grammar`: *Optional.* If not defined bender will respond to all mentions `@bot_name` and If grammar is defined bender will **only** respond to messages matching the regex expression. Use [python regular expression](https://docs.python.org/2/library/re.html) syntax. See [examples](examples.md) page for inspiration.
 
 * `template`: *Optional*. A string that will be evaluated and written to `template_filename` can be used as an input file for further jobs in the pipeline.
 
 * `template_filename`: *Optional*, *default `template_file.txt`*. The file name for a generated template.
+
+* `slack_unread`: *Optional*, *default `false`*. If set to true, The state of **slack unread message** will be used instead of being reported to the resource. This will improve speed, but downside you can't have multiple triggers per channel with same token. This only affects the check method.
 
 ## Behavior
 
@@ -92,11 +94,7 @@ The template uses python [Jinja2](http://jinja.pocoo.org/docs/2.9/) engine.
         trigger: true
 ```
 
-* If you have multiple triggers on the same channel it is better to use a different bot token for each. check TODO
-
 ## TODO
-
-* At the moment Bender depend on `timestamp` and slack to mark last as message read. Usually concourse should handle this natively with *check* version. Using **slack unread message** will improve speed, but downside you can't have multiple triggers per channel with same token. This only affects the check method. So need to support native concourse resource checks too.
 
 * Increase code coverage
 

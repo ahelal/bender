@@ -11,4 +11,4 @@ DIR="$( cd "$MY_PATH" && pwd )"  # absolutized and normalized
 payload=$(mktemp $TMPDIR/bender-resource.XXXXXX)
 cat > "$payload" <&0
 
-"${DIR}/$(basename "$0")_op.py" "$1" >&3 < "$payload"
+"${DIR}/$(basename "$0")_op.py" ${1} >&3 < "$payload"
