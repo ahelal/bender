@@ -61,7 +61,9 @@ Replies with a message to the selected `channel`.
 
 #### `out Parameters`
 
-* `reply`: *Required*. A **string** or **file path** to be used as reply. Supports [template format](#template).
+* `reply`: *Required/optional*. A **string** or **file path** to be used as reply. Supports [template format](#template). *Must be defined if `reply_attachments` is not defined.*
+
+* `reply_attachments`: *Required/optional*. A **string** or **JSON file path** to be used as reply in [slack attachment format](https://api.slack.com/docs/message-attachments). You can use [messages builder](https://api.slack.com/docs/messages/builder) Supports [template format](#template). *Must be defined if `reply` is not defined.*
 
 * `reply_thread`: *optional*, *default `False`*. If enabled will post reply to original message as a thread.
 

@@ -101,7 +101,7 @@ jobs       :
       - put: bender
         params:
           path: "bender"
-          reply: "Starting deployment {{ENV['ATC_EXTERNAL_URL']}}/teams/{{ ENV['BUILD_TEAM_NAME'] }}/pipelines/{{ENV['BUILD_PIPELINE_NAME']}}/jobs/{{ENV['BUILD_JOB_NAME'}}/builds/{{ENV['BUILD_NAME']}}"
+          reply: "Starting deployment"
 
       - task              : Deploying something
         config            :
@@ -126,7 +126,45 @@ jobs       :
 
 Same as Example 4 with the following difference `grammar: "^(?P<app>superApp)\\s+(?P<command>deploy)\\s+(?P<environment>live|staging)\\s+(?P<version>\\S+)($|\\s+)"` and `template: "ENVIRONMENT={{ regex[2] }}\nVERSION={{ regex[3] }}\n"`
 
-## `Example 6`: Bumping versions
+## `Example 6`: Using `reply_attachments`
+
+You can provide a json file in your source code with slack attachments.
+
+```json
+[
+    {
+        "fallback": "Deploying {{ regex['environment'] }} {{ regex['app'] }} {{ regex['version'] }}",
+        "title": "Deploying {{ regex['app'] }}",
+        "title_link": "{{ENV['ATC_EXTERNAL_URL']}}/teams/{{ ENV['BUILD_TEAM_NAME'] }}/pipelines/{{ENV['BUILD_PIPELINE_NAME']}}/jobs/{{ENV['BUILD_JOB_NAME']}}/builds/{{ENV['BUILD_NAME']}}",
+        "text": "Deploying {{ regex['environment'] }} {{ regex['app'] }} {{ regex['version'] }}",
+        "color": "#7CD197"
+    }
+]
+```
+
+Snippet of the deployment pipeline.
+
+```yaml
+      - get: bender
+        version: every
+        trigger: true
+
+      - get: source_code
+
+      - put: bender
+        params:
+          path: "bender"
+          reply_attachments: "source_code/..../start_deployment.json"
+
+      # you can also encode it as string
+      - put: bender
+        params:
+          path: "bender"
+          reply_attachments: "[{\"title\": \"Yeah\",\"text\": \"Deployment {{ regex['version'] }} :white_check_mark:\"}]"
+
+```
+
+## `Example 7`: Bumping versions
 
 ```yaml
 resources         :

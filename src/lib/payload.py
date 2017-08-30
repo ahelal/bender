@@ -53,8 +53,9 @@ class PayLoad(object): # pylint: disable=too-few-public-methods
         self.args["grammar"] = self.source.get("grammar")
         self.args["template"] = self.source.get("template")
         self.args["template_filename"] = self.source.get("template_filename", "template_file.txt")
-        self.args["slack_unread"] = self.source.get("slack_unread", False)
+        self.args["slack_unread"] = self.source.get("slack_unread")
         # Optional params config
         self.args["path"] = self.params.get("path")
         self.args["reply"] = self.params.get("reply")
+        self.args["reply_attachments"] = self.params.get("reply_attachments")
         self.args["reply_thread"] = self.params.get("reply_thread", True)

@@ -40,7 +40,7 @@ def write_to_file(content, output_file):
 
 def read_if_exists(base_path, content):
     ''' Return content of file, if file exists else return content.'''
-    path = os.path.abspath(os.path.join(base_path, content))
+    path = os.path.abspath(os.path.join(base_path, str(content)))
     is_file = os.path.isfile(path)
     if not is_file:
         return content
