@@ -60,10 +60,10 @@ class PayloadTest(TestCase):
         self.assertEqual(py.args["slack_token"], "slack_token")
         self.assertEqual(py.args["channel"], "channel")
         self.assertEqual(py.args["template_filename"], "template_file.txt")
+        self.assertEqual(py.args["version"], {})
         self.assertFalse(py.args["slack_unread"])
 
         self.assertIsNone(py.args["template"])
-        self.assertIsNone(py.args["version"])
         self.assertIsNone(py.args["grammar"])
         self.assertIsNone(py.args["path"])
         self.assertIsNone(py.args["reply"])

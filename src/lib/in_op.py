@@ -16,8 +16,7 @@ class In(Base):
         Base.__init__(self, **kwargs)
         self.metadata = []
         self.template = kwargs.get("template")
-
-        self.template_filename = os.path.basename(kwargs.get("template_filename", ""))
+        self.template_filename = os.path.basename(kwargs.get("template_filename"))
         self.templated_string = None
         self.original_msg = ""
 

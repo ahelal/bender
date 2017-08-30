@@ -22,9 +22,12 @@ class InTest(TestCase):
         mock_filter.return_value = "U01B12FDS"
 
         self.grammar = "^(superApp)\s+(deploy)\s+(live|staging)\s+(\S+)($|\s+)"
-        self.resource = in_op.In(token="token", channel="testChannel", bot="theBender",
-                                 template="VERSION={{ regex[4] }}", template_file="template_file.txt",
+        self.resource = in_op.In(template="VERSION={{ regex[4] }}", template_filename="template_filename",
                                  grammar=self.grammar, path="bender_path", reply="testing 1.2.3")
+
+    def test__init__(self):
+
+        self.assertEqual(self.resource.template_filename, "template_filename")
 
     # TODO test_in_logic
 

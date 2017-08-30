@@ -68,12 +68,12 @@ class Base(object): # pylint: disable=too-few-public-methods,too-many-instance-a
 
     def __init__(self, **kwargs):
         self.slack_client = SlackClient(kwargs.get("slack_token"))
-        self.bot = kwargs.get("bot", "bender")
-        self.channel = kwargs.get("channel", "")
-        self.grammar = kwargs.get("grammar", False)
-        self.version = kwargs.get("version", False)
-        self.working_dir = kwargs.get("working_dir", "/")
-        self.slack_unread = kwargs.get("slack_unread", False)
+        self.bot = kwargs.get("bot_name")
+        self.channel = kwargs.get("channel")
+        self.grammar = kwargs.get("grammar")
+        self.version = kwargs.get("version")
+        self.working_dir = kwargs.get("working_dir")
+        self.slack_unread = kwargs.get("slack_unread")
         # Get all user list
         self.users = self._call_api("users.list", presence=0)
         # find my id `the bot`

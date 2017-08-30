@@ -20,6 +20,7 @@ class PayLoad(object): # pylint: disable=too-few-public-methods
         else:
             self.params = self.payload.get("params", {})
             self.parse_payload()
+        # argument pass with dir
         self.args["working_dir"] = self._get_dir_from_argv()
 
     @staticmethod
@@ -42,6 +43,8 @@ class PayLoad(object): # pylint: disable=too-few-public-methods
     def parse_payload(self):
         ''' Parse payload passed by concourse'''
         self.args["version"] = self.payload.get("version")
+        if self.args["version"] is None:
+            self.args["version"] = {}
         try:
             # Mandatory source configs
             self.args["slack_token"] = self.source["slack_token"]

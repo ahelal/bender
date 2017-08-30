@@ -21,7 +21,7 @@ class BaseTest(TestCase):
         mock_filter.return_value = "U01B12FDS"
 
         self.grammar = "^(superApp)\s+(deploy)\s+(live|staging)\s+(\S+)($|\s+)"
-        self.resource = base.Base(token="token", channel="testChannel", bot="theBender", working_dir="/test",
+        self.resource = base.Base(token="token", channel="testChannel", bot_name="theBender", working_dir="/test",
                                   grammar=self.grammar, path="bender_path", reply="testing 1.2.3", slack_unread=True)
 
     def test__init__(self):

@@ -73,10 +73,10 @@ class Check(Base):
 
     def check_logic_concourse(self, max_api_count=1000):
         """Concourse resource `check` logic using version passed by concourse"""
-
         oldest = self.version.get("id_ts", 0)
         has_more = True
-        while has_more:
+        limit = 5
+        while has_more and limit >= 0:
             messages = self._call_api(self.channel_type + ".history",
                                       channel=self.channel_id,
                                       count=max_api_count,
@@ -87,6 +87,15 @@ class Check(Base):
                 oldest = messages["messages"][-1]["ts"]
                 self._parse_msgs(messages["messages"], len(messages["messages"]))
 
+        if not self.checked_msg:
+            # Sort messages by ts chronological
+            self.checked_msg = sorted(self.checked_msg, key=lambda k: k['id_ts'])
+
+        if not self.version.get("id_ts", False) and self.checked_msg:
+            self.checked_msg = [self.checked_msg[0]]
+
+        limit -= 1
+
     def check_output(self):
         """Concourse resource `check` output """
         print(json.dumps(self.checked_msg, indent=4, sort_keys=True))
@@ -95,8 +104,7 @@ def main():
     """Concourse resource `check` main """
     payload = PayLoad()
     slack_client = Check(**payload.args)
-
-    if slack_client.slack_unread or not slack_client.version:
+    if slack_client.slack_unread:
         slack_client.check_logic_unread()
     else:
         slack_client.check_logic_concourse()
