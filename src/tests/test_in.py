@@ -1,8 +1,9 @@
 import json
-import mock
 import os
 import sys
 from unittest import TestCase
+
+import mock
 
 import in_op
 

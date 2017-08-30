@@ -29,7 +29,7 @@ resource_types    :
 
 * `grammar`: *Optional.* If not defined bender will respond to all mentions `@bot_name` and If grammar is defined bender will **only** respond to messages matching the regex expression. Use [python regular expression](https://docs.python.org/2/library/re.html) syntax. See [examples](examples.md) page for inspiration.
 
-* `template`: *Optional*. A string that will be evaluated and written to `template_filename` can be used as an input file for further jobs in the pipeline.
+* `template`: *Optional*. A **string** that will be evaluated and written to `template_filename` can be used as an input file for further jobs in the pipeline.
 
 * `template_filename`: *Optional*, *default `template_file.txt`*. The file name for a generated template.
 
@@ -61,7 +61,7 @@ Replies with a message to the selected `channel`.
 
 #### `out Parameters`
 
-* `reply`: *Required*. The message to be used as reply. Supports [template format](#template).
+* `reply`: *Required*. A **string** or **file path** to be used as reply. Supports [template format](#template).
 
 * `reply_thread`: *optional*, *default `False`*. If enabled will post reply to original message as a thread.
 
@@ -98,7 +98,7 @@ The template uses python [Jinja2](http://jinja.pocoo.org/docs/2.9/) engine.
 
 ## TODO
 
-* Support reading from a file for `template` and `reply`
+* Add message username initiator to template engine.
 * Refactor and simplify logic of check_logic_unread
 * Increase code coverage
 

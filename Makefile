@@ -22,10 +22,14 @@ tests:
 	$(info $(M) Running tests for )
 	@PYTHONPATH="src/lib" nosetests -w "src/tests"
 
-tests-detail:
+detailed-tests:
 	$(info $(M) Running tests for $(VERSION))
-	@PYTHONPATH="src/lib" nosetests --detailed-errors -w "src/tests" -vv --nocapture  \
-									--with-coverage --cover-package=base,check_op,in_op,out_op,payload
+	@PYTHONPATH="src/lib" nosetests --detailed-errors -w "src/tests" -vv --nocapture
+
+coverage:
+	@coverage report -m src/lib/*.py
+
+lint:
 	@pylint src/lib/*.py
 
 push:

@@ -154,3 +154,16 @@ class FunctionsTest(TestCase):
         self.assertEqual(value_error.exception.code, 1)
         ## Can't manage to check one argument only :(
         #mock_print.assert_called_with("FIRE", file=mock.ANY, mode=mock.ANY)
+
+    @mock.patch('base.fail_unless')
+    def test_read_if_exists(self, mock_fail_unless):
+        base_path = "/Bcbc/x"
+        content = "SOMETHING"
+        return_val = base.read_if_exists(base_path, content)
+        self.assertEqual(return_val, "SOMETHING")
+        mock_fail_unless.assert_not_called()
+
+        content = "content1\ncontent2\n"
+        return_val = base.read_if_exists(os.path.dirname(__file__), "responses/file.txt")
+        mock_fail_unless.assert_not_called()
+        self.assertEqual(return_val, content)

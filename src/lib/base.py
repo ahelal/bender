@@ -38,6 +38,23 @@ def write_to_file(content, output_file):
     output_file_fd = open(output_file, 'w')
     print(content, file=output_file_fd)
 
+def read_if_exists(base_path, content):
+    ''' Return content of file, if file exists else return content.'''
+    path = os.path.abspath(os.path.join(base_path, content))
+    is_file = os.path.isfile(path)
+    if not is_file:
+        return content
+
+    return read_content_from_file(path)
+
+def read_content_from_file(path):
+    ''' Return content of file.'''
+    try:
+        with open(path) as file_desc:
+            return file_desc.read()
+    except IOError as file_error:
+        fail_unless(False, "Failed to read file '{}'. IOError: '{}".format(path, file_error))
+
 
 def fail_unless(condition, msg):
     """If condition is not True print msg and exit with status code 1"""
@@ -55,7 +72,7 @@ class Base(object): # pylint: disable=too-few-public-methods,too-many-instance-a
         self.channel = kwargs.get("channel", "")
         self.grammar = kwargs.get("grammar", False)
         self.version = kwargs.get("version", False)
-        self.working_dir = kwargs.get("working_dir", False)
+        self.working_dir = kwargs.get("working_dir", "/")
         self.slack_unread = kwargs.get("slack_unread", False)
         # Get all user list
         self.users = self._call_api("users.list", presence=0)

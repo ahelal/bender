@@ -3,10 +3,9 @@
 from __future__ import print_function
 
 import json
-import os
 
 from payload import PayLoad
-from base import Base, fail_unless, template_with_regex
+from base import Base, fail_unless, template_with_regex, read_if_exists, read_content_from_file
 
 
 class Out(Base):
@@ -16,9 +15,20 @@ class Out(Base):
         Base.__init__(self, **kwargs)
         self.metadata = []
         self.path = kwargs.get("path", False)
-        self.reply = kwargs.get("reply", False)
+        self.reply = read_if_exists(self.working_dir, kwargs.get("reply", False))
         self.reply_thread = kwargs.get("reply_thread", True)
-        self.bender_json_path = '{}/{}/bender.json'.format(self.working_dir, self.path)
+
+        # Get context from original message
+        context_json_path = '{}/{}/bender.json'.format(self.working_dir, self.path)
+        try:
+            context_content = read_content_from_file(context_json_path)
+            context_content = json.loads(context_content)
+        except ValueError as value_error:
+            fail_unless(False, "JSON Input error: {}".format(value_error))
+
+        self.version = context_content["version"]
+        self.metadata = context_content["metadata"]
+        self.original_msg = context_content["original_msg"]
 
     def _reply(self, thread_timestamp, text):
         args = {}
@@ -33,12 +43,7 @@ class Out(Base):
     def out_logic(self):
         """Concourse resource `out` logic """
 
-        fail_unless(os.path.isfile(self.bender_json_path), "Failed to get version info from file {}".format(self.bender_json_path))
-        with open(self.bender_json_path) as bender_file:
-            output_data = json.load(bender_file)
-        self.version = output_data["version"]
-        self.metadata = output_data["metadata"]
-        regex = self._msg_grammar(output_data["original_msg"])
+        regex = self._msg_grammar(self.original_msg)
         templated_reply = template_with_regex(self.reply, regex)
 
         if self.reply_thread:

@@ -7,4 +7,7 @@ install:
   - "pip install -r requirements.txt"
   - "pip install nose coverage pylint"
 
-script: make tests-detail
+script:
+   - make lint
+   - make detailed-tests
+   - make coverage
