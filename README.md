@@ -33,7 +33,7 @@ resource_types    :
 
 * `template_filename`: *Optional*, *default `template_file.txt`*. The file name for a generated template.
 
-* `slack_unread`: *Optional*, *default `false`*. If set to true, The state of **slack unread message** will be used instead of being reported to the resource. This will improve speed, but downside you can't have multiple triggers per channel with same token. This only affects the check method.
+* `slack_unread`: *Optional*, *default `false`*. If set to true, The state of **slack unread message** will be used instead of of the last version reported by concourse. This will improve speed, but downside you can't have multiple triggers per channel with same token and it's non-standard concourse behaviour. This only affects the check method.
 
 ## Behavior
 
