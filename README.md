@@ -6,6 +6,8 @@ A  Concourse resource that can trigger any job (deployments, releases, ...) usin
 
 Check [examples](examples.md) page for usage.
 
+*NOTE: Bender is still young, Your input and contribution is highly appreciated.*
+
 ## Deploying to Concourse
 
 You can use the docker image by defining the  [resource type](https://concourse.ci/configuring-resource-types.html) in your pipeline YAML.
