@@ -35,7 +35,7 @@ resource_types    :
 
 * `template_filename`: *Optional*, *default `template_file.txt`*. The file name for a generated template.
 
-* `slack_unread`: *Optional*, *default `false`*. If set to true, The state of **slack unread message** will be used instead of of the last version reported by concourse. This will improve speed, but downside you can't have multiple triggers per channel with same token and it's non-standard concourse behaviour. This only affects the check method.
+* `slack_unread`: *Optional*, *default `false`*. If set to true, The state of **slack unread message** will be used instead of of the last version reported by concourse. This will improve speed, but downside you can't have multiple triggers per channel with same token and it's non-standard concourse behavior. This only affects the check method.
 
 ## Behavior
 
@@ -103,7 +103,6 @@ The template uses python [Jinja2](http://jinja.pocoo.org/docs/2.9/) engine.
 ## TODO
 
 * Add message username initiator to template engine.
-* Refactor and simplify logic of check_logic_unread
 * Increase code coverage
 
 ## Contribution

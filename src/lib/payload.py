@@ -5,7 +5,7 @@ import json
 import sys
 import os
 
-from base import fail_unless
+from functions import fail_unless
 
 class PayLoad(object): # pylint: disable=too-few-public-methods
     ''' Payload class '''

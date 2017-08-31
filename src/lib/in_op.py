@@ -6,8 +6,8 @@ import json
 import os
 
 from payload import PayLoad
-from base import Base, fail_unless, template_with_regex, write_to_file
-
+from base import Base
+from functions import fail_unless, template_with_regex, write_to_file
 
 class In(Base):
     ''' In resource class'''

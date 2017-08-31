@@ -1,6 +1,6 @@
+''' testing in operation'''
 import json
 import os
-import sys
 from unittest import TestCase
 
 import mock

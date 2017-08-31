@@ -5,8 +5,8 @@ from __future__ import print_function
 import json
 
 from payload import PayLoad
-from base import Base, fail_unless, template_with_regex, read_if_exists, read_content_from_file
-
+from base import Base
+from functions import fail_unless, template_with_regex, read_if_exists, read_content_from_file
 
 class Out(Base):
     ''' Out resource'''

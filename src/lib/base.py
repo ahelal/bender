@@ -1,67 +1,10 @@
 ''' Base class and some helper functions'''
 from __future__ import print_function
 
-import os
 import re
-import sys
 
-from jinja2 import StrictUndefined, Template, TemplateSyntaxError, UndefinedError
 from slackclient import SlackClient
-
-
-def template_str(text, variables):
-    ''' Return a templated text '''
-    # Merge ENV with variables passed
-    os_env = {"ENV": os.environ}
-    variables.update(os_env)
-
-    try:
-        return Template(text, undefined=StrictUndefined).render(variables)
-    except TemplateSyntaxError as syntax_error:
-        fail_unless(False, "Template syntax error. Template string: '{}'\n.{}".format(text, syntax_error))
-    except UndefinedError as undefined_error:
-        fail_unless(False, "Undefined variable. Template string: '{}'\n.{}".format(text, undefined_error))
-    except TypeError as type_error:
-        fail_unless(False, "Type error. Template string: '{}'\n.{}".format(text, type_error))
-
-def template_with_regex(text, regex):
-    ''' Add regex groupdict or groups to our environment'''
-    extra_env = {}
-    if regex and regex.groupdict():
-        extra_env = {"regex": regex.groupdict()}
-    elif regex and regex.groups():
-        extra_env = {"regex": regex.groups()}
-    return template_str(text, extra_env)
-
-def write_to_file(content, output_file):
-    ''' write content to output_file'''
-    output_file_fd = open(output_file, 'w')
-    print(content, file=output_file_fd)
-
-def read_if_exists(base_path, content):
-    ''' Return content of file, if file exists else return content.'''
-    path = os.path.abspath(os.path.join(base_path, str(content)))
-    is_file = os.path.isfile(path)
-    if not is_file:
-        return content
-
-    return read_content_from_file(path)
-
-def read_content_from_file(path):
-    ''' Return content of file.'''
-    try:
-        with open(path) as file_desc:
-            return file_desc.read()
-    except IOError as file_error:
-        fail_unless(False, "Failed to read file '{}'. IOError: '{}".format(path, file_error))
-
-
-def fail_unless(condition, msg):
-    """If condition is not True print msg and exit with status code 1"""
-    if not condition:
-        print("{}".format(msg), file=sys.stderr)
-        exit(1)
-
+from functions import fail_unless
 
 class Base(object): # pylint: disable=too-few-public-methods,too-many-instance-attributes
     """Slack Concourse resource implementation"""
@@ -108,9 +51,7 @@ class Base(object): # pylint: disable=too-few-public-methods,too-many-instance-a
             regex = re.compile(r"{}".format(self.grammar))
         except re.error as regex_error:
             fail_unless(False, "The grammar expression '{}' has an error : {}".format(self.grammar, regex_error))
-        regex = regex.match(direct_msg)
-
-        return regex
+        return  regex.match(direct_msg)
 
 
     @staticmethod
@@ -121,8 +62,7 @@ class Base(object): # pylint: disable=too-few-public-methods,too-many-instance-a
         return None
 
     def _get_channel_group_id(self, channel_type):
-        items = self._call_api("{}.list".format(
-            channel_type), exclude_members=1)
+        items = self._call_api("{}.list".format(channel_type), exclude_members=1)
         return self._filter(items[channel_type], "id", "name", self.channel)
 
     def _get_channel_group_info(self):
@@ -130,7 +70,6 @@ class Base(object): # pylint: disable=too-few-public-methods,too-many-instance-a
         channel_id = self._get_channel_group_id("groups")
         if channel_id:
             return channel_id, "groups"
-
         # not a group try a channel
         channel_id = self._get_channel_group_id("channels")
         return channel_id, "channels"
