@@ -92,3 +92,8 @@ class FunctionsTest(TestCase):
         return_val = read_if_exists(os.path.dirname(__file__), "responses/file.txt")
         mock_fail_unless.assert_not_called()
         self.assertEqual(return_val, content)
+
+    def test_list_get(self):
+        self.assertEqual(list_get([0,1,2], 1, True), 1)
+        self.assertTrue(list_get([0,1,2], -1, True))
+        self.assertIsNone(list_get([0,1,2], 4))

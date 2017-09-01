@@ -21,15 +21,15 @@ class Out(Base):
         # Get context from original message
         context_json_path = '{}/{}/bender.json'.format(self.working_dir, self.path)
         context_content = read_content_from_file(context_json_path)
-        context_content = self.serialize_json(context_content)
+        context_content = self.load_json(context_content)
         # Initialize from original message
         self.version = context_content["version"]
         self.metadata = context_content["metadata"]
         self.original_msg = context_content["original_msg"]
 
     @staticmethod
-    def serialize_json(json_string):
-        ''' Serialize a JSON strong into a python object'''
+    def load_json(json_string):
+        ''' de-serialize a JSON strong into a python object'''
         try:
             serialized = json.loads(json_string)
         except ValueError as value_error:
@@ -56,16 +56,13 @@ class Out(Base):
         regex = self._msg_grammar(self.original_msg)
         if self.reply:
             self.reply = template_with_regex(self.reply, regex)
-
         if self.reply_attachments:
             self.reply_attachments = template_with_regex(self.reply_attachments, regex)
-            self.reply_attachments = self.serialize_json(self.reply_attachments)
-
+            self.reply_attachments = self.load_json(self.reply_attachments)
         if self.reply_thread:
-            reply_to_thread = self.version["id_ts"]
-        else:
-            reply_to_thread = False
-        self._reply(thread_timestamp=reply_to_thread,
+            self.reply_thread = self.version["id_ts"]
+
+        self._reply(thread_timestamp=self.reply_thread,
                     text=self.reply,
                     attachments=self.reply_attachments)
 

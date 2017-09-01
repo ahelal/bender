@@ -20,15 +20,14 @@ class Check(Base):
                        channel=self.channel_id,
                        ts=timestamp)
 
-    def _parse_msgs(self, messages, index):
+    def _filter_msgs(self, messages, index):
+        ''' Filter messages by type 'message' and regex match grammar'''
         for message in messages[:index]:
-            # Only consider messages types and grammar must match
             if message.get("type") == "message" and self._msg_grammar(message.get("text")):
                 self.checked_msg.append({"id_ts": message["ts"]})
 
     def check_logic_unread(self, max_api_count=1000, limit=5):
         """Concourse resource `check` logic using unread mark by slack"""
-
         unread_counter = True
         latest_ts = 0
         while unread_counter or limit >= 0:
@@ -43,10 +42,10 @@ class Check(Base):
                 mark_ts = list_get(messages["messages"], 0, {}).get("ts", False)
             latest_ts = list_get(messages["messages"], -1, {}).get("ts", 0)
             if messages["messages"] and 0 < unread_counter < max_api_count:
-                self._parse_msgs(messages["messages"], unread_counter)
+                self._filter_msgs(messages["messages"], unread_counter)
                 unread_counter = 0
             elif messages["messages"] and unread_counter >= max_api_count:
-                self._parse_msgs(messages["messages"], unread_counter)
+                self._filter_msgs(messages["messages"], unread_counter)
                 unread_counter -= max_api_count
 
         if mark_ts:
@@ -70,7 +69,7 @@ class Check(Base):
             has_more = messages.get("has_more")
             if messages["messages"]:
                 oldest = messages["messages"][-1]["ts"]
-                self._parse_msgs(messages["messages"], len(messages["messages"]))
+                self._filter_msgs(messages["messages"], len(messages["messages"]))
 
         if not self.checked_msg:
             # Sort messages by 'ts' chronologically

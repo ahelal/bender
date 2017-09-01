@@ -47,7 +47,6 @@ def read_if_exists(base_path, content):
     is_file = os.path.isfile(path)
     if is_file:
         return read_content_from_file(path)
-
     return content
 
 def read_content_from_file(path):

@@ -78,11 +78,11 @@ class CheckTest(TestCase):
 
 
     @mock.patch('check_op.Check._msg_grammar')
-    def test_parse_msgs(self, mock_msg_grammer):
+    def test_filter_msgs(self, mock_msg_grammer):
         with open('{}/responses/messages.json'.format(self.script_dir)) as json_file:
             messages = json.load(json_file)
         # Skipping return of message type not "message" so our index is less then actual message.
         mock_msg_grammer.side_effect = [False, messages["messages"][2], False, messages["messages"][5], False]
-        self.resource._parse_msgs(messages["messages"], len(messages["messages"]))
+        self.resource._filter_msgs(messages["messages"], len(messages["messages"]))
         check_msgs = [{'id_ts': u'1358546512.010007'}, {'id_ts': u'1358546515.010007'}]
         self.assertItemsEqual(check_msgs, self.resource.checked_msg)
