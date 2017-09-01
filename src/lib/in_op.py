@@ -7,7 +7,7 @@ import os
 
 from payload import PayLoad
 from base import Base
-from functions import *
+from functions import write_to_file, list_get, template_with_regex, fail_unless
 
 class In(Base):
     ''' In resource class'''
