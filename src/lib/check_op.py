@@ -76,7 +76,10 @@ class Check(Base):
             self.checked_msg = sorted(self.checked_msg, key=lambda k: k['id_ts'])
             if not self.version.get("id_ts"):
                 # if we don't have version passed. So report latest only
-                self.checked_msg = [self.checked_msg[0]]
+                try:
+                    self.checked_msg = [self.checked_msg[0]]
+                except IndexError:
+                    self.checked_msg = []
 
     def check_output(self):
         """Concourse resource `check` output """
