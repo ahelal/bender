@@ -62,7 +62,10 @@ class PayloadTest(TestCase):
         self.assertEqual(py.args["template_filename"], "template_file.txt")
         self.assertEqual(py.args["version"], {})
         self.assertFalse(py.args["slack_unread"])
-
+        self.assertTrue(py.args['mention'])
+        self.assertTrue(py.args['as_user'])
+        self.assertIsNone(py.args["bot_icon_emoji"])
+        self.assertIsNone(py.args["bot_icon_url"])
         self.assertIsNone(py.args["template"])
         self.assertIsNone(py.args["grammar"])
         self.assertIsNone(py.args["path"])
@@ -81,6 +84,10 @@ class PayloadTest(TestCase):
                                                     'grammar': 'grammar',
                                                     'slack_token': 'slack_token',
                                                     'template': 'template',
+                                                    'mention': 'mention',
+                                                    'as_user': 'as_user',
+                                                    'bot_icon_emoji': 'bot_icon_emoji',
+                                                    'bot_icon_url': 'bot_icon_url',
                                                     'template_filename': 'template_filename',
                                                     'slack_unread': True},
                                          'version': 'version'}]
@@ -90,6 +97,11 @@ class PayloadTest(TestCase):
         self.assertEqual(py.args["channel"], "channel")
         self.assertEqual(py.args["template_filename"], "template_filename")
         self.assertTrue(py.args["slack_unread"])
+
+        self.assertEqual(py.args["mention"], "mention")
+        self.assertEqual(py.args["as_user"], "as_user")
+        self.assertEqual(py.args["bot_icon_emoji"], "bot_icon_emoji")
+        self.assertEqual(py.args["bot_icon_url"], "bot_icon_url")
 
         self.assertEqual(py.args["template"], "template")
         self.assertEqual(py.args["version"], "version")

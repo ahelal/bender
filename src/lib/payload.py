@@ -53,6 +53,10 @@ class PayLoad(object): # pylint: disable=too-few-public-methods
             fail_unless(False, "Source config '{}' required".format(value_error))
         # Optional source configs
         self.args["bot_name"] = self.source.get("bot_name", "bender")
+        self.args["mention"] = self.source.get("mention", True)
+        self.args["as_user"] = self.source.get("as_user", True)
+        self.args["bot_icon_emoji"] = self.source.get("bot_icon_emoji")
+        self.args["bot_icon_url"] = self.source.get("bot_icon_url")
         self.args["grammar"] = self.source.get("grammar")
         self.args["template"] = self.source.get("template")
         self.args["template_filename"] = self.source.get("template_filename", "template_file.txt")

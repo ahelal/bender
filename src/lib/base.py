@@ -18,8 +18,13 @@ class Base(object): # pylint: disable=too-few-public-methods,too-many-instance-a
         self.working_dir = kwargs.get("working_dir")
         self.slack_unread = kwargs.get("slack_unread")
         self.users = self._call_api("users.list", presence=0)
-        self.bot_id = self._filter(self.users['members'], "id", "name", self.bot)
-        fail_unless(self.bot_id, "Unable to find bot name '{}'".format(self.bot))
+        self.mention = kwargs.get("mention")
+        if self.mention:
+            self.bot_id = self._filter(self.users['members'], "id", "name", self.bot)
+            fail_unless(self.bot_id, "Unable to find bot name '{}'".format(self.bot))
+        if not self.grammar and not self.mention:
+            fail_unless(False, "At least one parameter is required 'grammar', 'mention'.")
+
         self.channel_id, self.channel_type = self._get_channel_group_info()
         fail_unless(self.channel_id, "Unable to find channel/group '{}'".format(self.channel))
 
@@ -31,8 +36,8 @@ class Base(object): # pylint: disable=too-few-public-methods,too-many-instance-a
         return api_response
 
     @staticmethod
-    def _remove_botname(msg, bot_id):
-        '''Return a text after removing <@BOT_ID> from message.'''
+    def _remove_bot_id(msg, bot_id):
+        '''Return a text after removing <@BOT_NAME> from message.'''
         regex = re.compile(r"^(\s+)?<@{}>(.*)".format(bot_id))
         regex = regex.match(msg)
         if not regex:
@@ -40,17 +45,18 @@ class Base(object): # pylint: disable=too-few-public-methods,too-many-instance-a
         return regex.groups()[1].strip()
 
     def _msg_grammar(self, msg):
-        ''' Return only direct message if grammar is not defined. Return regex if grammar is defined. And None if no match'''
-        direct_msg = self._remove_botname(msg, self.bot_id)
-        if not self.grammar or not direct_msg:
-            # We don't have grammar rules or if our not a direct msg to the bot.
-            # Just return direct_msg
-            return direct_msg
+        ''' Return only message if grammar is not defined. Return regex if grammar is defined. And None if no match'''
+        if self.mention:
+            msg = self._remove_bot_id(msg, self.bot_id)
+            if not self.grammar or not msg:
+                # No grammar rule or or no mention of the bot, Just return msg
+                return msg
         try:
             regex = re.compile(r"{}".format(self.grammar))
         except re.error as regex_error:
             fail_unless(False, "The grammar expression '{}' has an error : {}".format(self.grammar, regex_error))
-        return  regex.match(direct_msg)
+
+        return regex.match(msg)
 
     @staticmethod
     def _filter(items, return_field, filter_field, filter_value):

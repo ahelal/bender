@@ -36,8 +36,14 @@ class In(Base):
         if self.template:
             regex = self._msg_grammar(self.original_msg)
             self.templated_string = template_with_regex(self.template, regex)
+
+        if self.mention:
+            meta_data_msg = self._remove_bot_id(self.original_msg, self.bot_id)
+        else:
+            meta_data_msg = self.original_msg
+
         self.metadata = [{"name": "User", "value": user},
-                         {"name": "Message", "value": self._remove_botname(self.original_msg, self.bot_id)}]
+                         {"name": "Message", "value": meta_data_msg}]
 
     def in_output(self):
         """Concourse resource `in` main """

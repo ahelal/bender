@@ -29,6 +29,14 @@ resource_types    :
 
 * `bot_name`: *Optional*, *default `bender`*. The bot name will be used to identify and filter messages. All messages must be addressed to the bot, eg.: `@bot_name some message`.
 
+* `as_user`: *Optional.*, *default `true`*. By default use the authed user, if `false` you can customize the `bot_name`, `bot_icon_emoji` and `bot_icon_ur`.
+
+* `bot_icon_emoji`: *Optional.* Emoji to use as the icon for this message. Overrides `bot_icon_url`. Must be used in conjunction with `as_user` set to false, otherwise ignored.
+
+* `bot_icon_url`: *Optional.* URL to an image to use as the icon for this message. Must be used in conjunction with `as_user` set to false, otherwise ignored.
+
+* `mention`: *Optional.* Only respond to mention `@bot_name` this will only work with `as_user: false`, otherwise ignored.
+
 * `grammar`: *Optional.* If not defined bender will respond to all mentions `@bot_name` and If grammar is defined bender will **only** respond to messages matching the regex expression. Use [python regular expression](https://docs.python.org/2/library/re.html) syntax. See [examples](examples.md) page for inspiration.
 
 * `template`: *Optional*. A **string** that will be evaluated and written to `template_filename` can be used as an input file for further jobs in the pipeline.
@@ -104,6 +112,9 @@ The template uses python [Jinja2](http://jinja.pocoo.org/docs/2.9/) engine.
 
 * Add message username initiator to template engine.
 * Increase code coverage
+* post as_user
+* lock example
+* Restrict per user_group
 
 ## Contribution
 

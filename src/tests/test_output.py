@@ -21,8 +21,13 @@ class OutTest(TestCase):
         mock_read_content_from_file.return_value = '{"version": 1, "metadata": [1], "original_msg": "HI"}'
 
         self.grammar = "^(superApp)\\s+(deploy)\\s+(live|staging)\\s+(\\S+)($|\\s+)"
-        self.resource = out_op.Out(token="token", channel="testChannel", bot="theBender", working_dir="/tmp",
-                                   grammar=self.grammar, path="bender_path", reply="testing 1.2.3",
+        self.resource = out_op.Out(token="token",
+                                   channel="testChannel",
+                                   bot="theBender",
+                                   working_dir="/tmp",
+                                   grammar=self.grammar,
+                                   path="bender_path",
+                                   reply="testing 1.2.3",
                                    reply_thread="reply_thread")
 
     def test__init__(self):

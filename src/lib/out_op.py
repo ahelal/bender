@@ -8,7 +8,7 @@ from payload import PayLoad
 from base import Base
 from functions import fail_unless, template_with_regex, read_if_exists, read_content_from_file
 
-class Out(Base):
+class Out(Base): # pylint: disable=too-few-public-methods,too-many-instance-attributes
     ''' Out resource'''
 
     def __init__(self, **kwargs):
@@ -18,6 +18,10 @@ class Out(Base):
         self.reply_attachments = read_if_exists(self.working_dir, kwargs.get("reply_attachments"))
         self.reply = read_if_exists(self.working_dir, kwargs.get("reply"))
         self.reply_thread = kwargs.get("reply_thread", True)
+        # as_user info
+        self.as_user = kwargs.get("as_user")
+        self.bot_icon_emoji = kwargs.get("bot_icon_emoji")
+        self.bot_icon_url = kwargs.get("bot_icon_url")
         # Get context from original message
         context_json_path = '{}/{}/bender.json'.format(self.working_dir, self.path)
         context_content = read_content_from_file(context_json_path)
@@ -44,6 +48,12 @@ class Out(Base):
             args.update({"text": text})
         if attachments:
             args.update({"attachments": attachments})
+        if not self.as_user:
+            args.update({"as_user": False, "username": self.bot})
+            if self.bot_icon_emoji:
+                args.update({"icon_emoji": self.bot_icon_emoji})
+            elif self.bot_icon_url:
+                args.update({"icon_url": self.bot_icon_url})
 
         self._call_api("chat.postMessage",
                        channel=self.channel_id,
