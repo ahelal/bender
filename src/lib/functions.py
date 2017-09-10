@@ -27,14 +27,13 @@ def template_str(text, variables):
     except TypeError as type_error:
         fail_unless(False, "Type error. Template string: '{}'\n.{}".format(text, type_error))
 
-def template_with_regex(text, regex):
+def template_with_regex(text, regex, **template_vars):
     ''' Add regex groupdict or groups to our environment'''
-    extra_env = {}
     if regex and regex.groupdict():
-        extra_env = {"regex": regex.groupdict()}
+        template_vars.update({"regex": regex.groupdict()})
     elif regex and regex.groups():
-        extra_env = {"regex": regex.groups()}
-    return template_str(text, extra_env)
+        template_vars.update({"regex": regex.groups()})
+    return template_str(text, template_vars)
 
 def write_to_file(content, output_file):
     ''' write content to output_file'''

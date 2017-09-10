@@ -19,8 +19,6 @@ coverage.xml
 pip-log.txt
 pip-delete-this-directory.txt
 
-vars.yml
-
+# Project specific
 .vscode/*
-
-example/test1.yml
+example/*

@@ -87,6 +87,7 @@ The template uses python [Jinja2](http://jinja.pocoo.org/docs/2.9/) engine.
    All environmental variables are accessible through `{{ ENV['PATH'] }}`.
    Concourse exposes some metadata info like job_name, build, for more info [check concourse website](https://concourse.ci/implementing-resources.html#resource-metadata).
    The regex groups are accessible to the template engine as `{{ regex }}` if you used *subgroups* in your expression you can access each group with index `{{ regex[0] }}`. If you used *named subgroups* you can access them as dictionary `{{ regex['name'] }}`.
+   The original user who initiated the trigger is accessible as variable `{{ user }}`. You can also add `@{{ user }}` to mention the user.
 
 * `white spaces`: You can use `\n` for new lines `\t` for tabs in your template.
 
@@ -100,7 +101,7 @@ The template uses python [Jinja2](http://jinja.pocoo.org/docs/2.9/) engine.
 
 * Use `\s+` between commands to give a little bit of room for user send an extra space in the message.
 
-* You probably want to define **version: every** and in your **trigger: true** so the resource will go through all the messages and trigger the jobs.
+* You probably want to define **version: every** and **trigger: true** so the resource will go through all the messages and trigger the jobs.
 
 ```yaml
       - get: bender
@@ -110,11 +111,9 @@ The template uses python [Jinja2](http://jinja.pocoo.org/docs/2.9/) engine.
 
 ## TODO
 
-* Add message username initiator to template engine.
 * Increase code coverage
-* post as_user
-* lock example
 * Restrict per user_group
+* lock example
 
 ## Contribution
 

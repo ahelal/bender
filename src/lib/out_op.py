@@ -64,10 +64,15 @@ class Out(Base): # pylint: disable=too-few-public-methods,too-many-instance-attr
         """Concourse resource `out` logic """
 
         regex = self._msg_grammar(self.original_msg)
+        user = ""
+        for item in self.metadata:
+            if item["name"] == 'User':
+                user = item["value"]
+                break
         if self.reply:
-            self.reply = template_with_regex(self.reply, regex)
+            self.reply = template_with_regex(self.reply, regex, user=user)
         if self.reply_attachments:
-            self.reply_attachments = template_with_regex(self.reply_attachments, regex)
+            self.reply_attachments = template_with_regex(self.reply_attachments, regex, user=user)
             self.reply_attachments = self.load_json(self.reply_attachments)
         if self.reply_thread:
             self.reply_thread = self.version["id_ts"]

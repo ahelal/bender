@@ -35,8 +35,7 @@ class In(Base):
         user = self._filter(self.users['members'], "name", "id", message.get("user"))
         if self.template:
             regex = self._msg_grammar(self.original_msg)
-            self.templated_string = template_with_regex(self.template, regex)
-
+            self.templated_string = template_with_regex(self.template, regex, user=user)
         if self.mention:
             meta_data_msg = self._remove_bot_id(self.original_msg, self.bot_id)
         else:
