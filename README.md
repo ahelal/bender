@@ -49,7 +49,11 @@ resource_types    :
 
 ### `check`: Check for new messages that match the rules
 
-Check will report a new version;`timestamp`; if message is addressed to `@bot_name` in the selected `channel` **and** if `grammar` is defined, it *must* match the regular expression defined in `grammar`.
+Check will report a new version;`timestamp`; if message fits **all** the criteria.
+
+* If `mention` is *true* the message must be addressed to `@bot_name` in the selected `channel`.
+
+* If `grammar` is defined, it *must* match the regular expression defined in `grammar`.
 
 #### `check Parameters`
 
