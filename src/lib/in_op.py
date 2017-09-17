@@ -21,12 +21,13 @@ class In(Base):
         self.original_msg = ""
 
     def _get_single_msg(self, timestamp):
-        return self._call_api(self.channel_type + ".history",
-                              channel=self.channel_id,
-                              inclusive=True,
-                              count=1,
-                              latest=timestamp)
-
+        message = self._call_api(self.channel_type + ".history",
+                                 channel=self.channel_id,
+                                 inclusive=True,
+                                 count=1,
+                                 latest=timestamp)
+        fail_unless(message["messages"], "Message '{}' is empty. Might have been removed".format(timestamp))
+        return message
 
     def in_logic(self):
         """Concourse resource `in` logic """

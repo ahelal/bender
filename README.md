@@ -113,6 +113,8 @@ The template uses python [Jinja2](http://jinja.pocoo.org/docs/2.9/) engine.
         trigger: true
 ```
 
+* By default concourse resource are checked every 1m. If you want to setup multi resources you will exhaust your Slack API limits fast. You can configure slack to do an API call to your concourse using [slack outgoing webhooks](https://api.slack.com/custom-integrations/outgoing-webhooks), [concourse webhook_token](https://concourse.ci/single-page.html#webhook_token) and increase [check_every](https://concourse.ci/single-page.html#check_every) to higher eg. 1h. You can also use different [Slash commands](https://api.slack.com/slash-commands) instead of web hooks.
+
 ## TODO
 
 * Increase code coverage
